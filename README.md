@@ -26,8 +26,6 @@
 [![Issues][issues-shield]][issues-url]
 [![MIT License][license-shield]][license-url]
 
-
-
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
@@ -86,11 +84,40 @@ To set up your environment, follow these steps.
 
 ### Prerequisites
 
-*Work in progress.*
+* A virtual edge provisioned in a VMware SD-WAN orchestrator.
+* [Terraform](https://www.terraform.io/downloads.html)
+* [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
+* [Azure AD Tenant](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-create-new-tenant)
+    
+    *This is used for Azure authentication. You can also use an existing Azure AD user with adequate permissions. This tenant must have an Azure subscription.*
+* [Azure service principal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret#creating-a-service-principal-using-the-azure-cli)
+    
+    *Follow through Creating a Service Principal using the Azure CLI.*
 
 ### Installation
 
-*Work in progress.*
+1. Clone this repository and `cd` into it.
+
+    `git clone https://github.com/nbarrettvmw/vmw-sase-tf.git && cd vmw-sase-tf`
+2. Copy the `sase-env-config.tfvars` file in order to customize it.
+
+    `cp sase-env-config.tfvars my-sase-env-config.tfvars`
+3. Initialize the terraform directory.
+
+    `terraform init`
+4. Modify the `.tfvars` file according to your environment. Each setting is documented in the file.
+5. Run the terraform deployment and wait for it to complete.
+
+    `terraform apply -var-file="my-sase-env-config.tfvars"`
+6. Note the private IP address of the domain controller VM and the web server VM.
+
+    `az vm list-ip-addresses -o table`
+7. RDP into the domain controller VM. The username will be `dc_name\admin_username`. The password will be `admin_password`.
+
+    *Substitute `dc_name`, `admin_username`, and `admin_password` with what was saved in the `.tfvars` file.*
+8. Reboot the domain controller through its start menu.
+9. The domain controller can now be reached via RDP using `admin_username@domain_name`. Users, groups, etc. can now be added to the domain.
+10. The web server should present an nginx splash page when browsing to it. You can also SSH to it with username `ssh_admin_username` and your SSH private key.
 
 <!-- LICENSE -->
 ## License
