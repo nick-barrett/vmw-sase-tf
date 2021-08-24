@@ -72,7 +72,9 @@
 <!-- ABOUT THE PROJECT -->
 ## About The Project
 
+<!-- 
 [![Product Name Screen Shot][product-screenshot]](https://github.com/nbarrettvmw/vmw-sase-tf)
+-->
 
 This repository helps set up a virtual environment in Azure to demonstrate integrating VMware
 SASE.
