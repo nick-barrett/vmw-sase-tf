@@ -100,12 +100,8 @@ To set up your environment, follow these steps.
 6. Note the private IP address of the domain controller VM and the web server VM.
 
     `az vm list-ip-addresses -o table`
-7. RDP into the domain controller VM. The username will be `dc_name\admin_username`. The password will be `admin_password`.
-
-    *Substitute `dc_name`, `admin_username`, and `admin_password` with what was saved in the `.tfvars` file.*
-8. Reboot the domain controller through its start menu.
-9. The domain controller can now be reached via RDP using `admin_username@domain_name`. Users, groups, etc. can now be added to the domain.
-10. The web server should present an nginx splash page when browsing to it. You can also SSH to it with username `ssh_admin_username` and your SSH private key.
+7. The domain controller can now be reached via RDP using `admin_username@domain_name`. Users, groups, and OUs from your `.tfvars` file will be present in Active Directory.
+8. The web server should present an nginx splash page when browsing to it. You can also SSH to it with username `ssh_admin_username` and your SSH private key.
 
 <!-- LICENSE -->
 ## License
