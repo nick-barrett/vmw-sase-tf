@@ -72,7 +72,7 @@ To set up your environment, follow these steps.
 
 ### Prerequisites
 
-* A virtual edge provisioned in a VMware SD-WAN orchestrator.
+* A virtual edge configuration in a VMware SD-WAN orchestrator. The deployment will handle activation.
 * [Terraform](https://www.terraform.io/downloads.html)
 * [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
 * [Azure AD Tenant](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-create-new-tenant)
