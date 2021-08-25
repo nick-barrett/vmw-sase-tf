@@ -38,11 +38,7 @@
   <p align="center">
     Quickly deploy a reproducible VMware SASE demonstration environment
     <br />
-    <a href="https://github.com/nbarrettvmw/vmw-sase-tf"><strong>Explore the docs »</strong></a>
     <br />
-    <br />
-    <a href="https://github.com/nbarrettvmw/vmw-sase-tf">View Demo</a>
-    ·
     <a href="https://github.com/nbarrettvmw/vmw-sase-tf/issues">Report Bug</a>
     ·
     <a href="https://github.com/nbarrettvmw/vmw-sase-tf/issues">Request Feature</a>
@@ -76,8 +72,14 @@
 [![Product Name Screen Shot][product-screenshot]](https://github.com/nbarrettvmw/vmw-sase-tf)
 -->
 
-This repository helps set up a virtual environment in Azure to demonstrate integrating VMware
+This terraform deployment helps set up a virtual environment in Azure to demonstrate integrating VMware
 SASE.
+
+The end result is an activated VMware SD-WAN Edge, a minimal Ubuntu web server, and a domain controller hosted in Azure.
+
+## Demo
+
+[![asciicast](https://asciinema.org/a/qFJcUUVpMZvWQhbKpWHpAeDdQ.svg)](https://asciinema.org/a/qFJcUUVpMZvWQhbKpWHpAeDdQ)
 
 <!-- GETTING STARTED -->
 ## Getting Started
