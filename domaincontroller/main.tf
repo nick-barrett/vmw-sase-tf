@@ -7,8 +7,16 @@ terraform {
   }
 }
 
+resource "random_string" "stgacctname" {
+  length = 13
+  special = false
+  lower = true
+  upper = false
+  number = true
+}
+
 resource "azurerm_storage_account" "tf_dc_storage_account" {
-  name                     = "dcsasasedemo"
+  name                     = random_string.stgacctname.result
   resource_group_name      = var.rg_name
   location                 = var.location
   account_tier             = "Standard"
@@ -31,6 +39,20 @@ resource "azurerm_storage_blob" "tf_dc_setup_blob" {
     domain_name = var.domain_name
     domain_nb_name = var.domain_nb_name
     safemode_admin_pwd = var.password
+    stage2_blob_name = azurerm_storage_blob.tf_dc_setup_stage2_blob.name
+  })
+}
+
+resource "azurerm_storage_blob" "tf_dc_setup_stage2_blob" {
+  name                   = "${var.name}-dc-setup-stage2.ps1"
+  storage_account_name   = azurerm_storage_account.tf_dc_storage_account.name
+  storage_container_name = azurerm_storage_container.tf_dc_storage_container.name
+  type                   = "Block"
+
+  source_content = templatefile("${path.module}/scripts/dc-setup-stage2.ps1", {
+    ous = var.domain_structure.ous
+    users = var.domain_structure.users
+    groups = var.domain_structure.groups
   })
 }
 
@@ -111,7 +133,8 @@ resource "azurerm_virtual_machine_extension" "tf_dc_setup_script" {
   settings           = <<SETTINGS
     {
         "fileUris": [
-          "${azurerm_storage_blob.tf_dc_setup_blob.url}"
+          "${azurerm_storage_blob.tf_dc_setup_blob.url}",
+          "${azurerm_storage_blob.tf_dc_setup_stage2_blob.url}"
         ]
     }
 SETTINGS

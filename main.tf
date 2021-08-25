@@ -38,6 +38,7 @@ module "velonet_dc" {
   password       = var.windows_admin_password
   domain_name    = var.domain_name
   domain_nb_name = var.domain_netbios_name
+  domain_structure = var.domain_structure
 
   depends_on = [
     time_sleep.vce_activation_delay

@@ -34,3 +34,29 @@ domain_name = ""
 # NetBIOS domain name for the active directory environment
 # MUST BE 15 characters or less
 domain_netbios_name = ""
+
+domain_structure = {
+    ous = []
+    users = [
+        {
+            name = "John Doe (ENG)"
+            given_name = "John"
+            surname = "Doe"
+            sam_account_name = "jdoe.eng"
+            upn = "jdoe.eng@mydomain.com"
+            path = "CN=Users,DC=mydomain,DC=com"
+            display_name = "John Doe"
+            password = "H,DJR3VCu$X(}6Rr"
+        }
+    ]
+    groups = [
+        {
+            name = "Engineering"
+            sam_account_name = "Engineering"
+            display_name = "Engineering"
+            path = "CN=Users,DC=mydomain,DC=com"
+            description = "Engineering staff"
+            members = "jdoe.eng"
+        }
+    ]
+}
