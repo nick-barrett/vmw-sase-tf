@@ -17,3 +17,8 @@ output "dns_server_ip" {
   value = local.dns_server_ip
   description = "IP address that a DNS server should be placed at"
 }
+
+output "vce_activated" {
+  value = null_resource.wait_for_vce_activation.id
+  description = "Dummy output indicating that the activation is complete"
+}

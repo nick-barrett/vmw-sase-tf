@@ -23,6 +23,7 @@ ssh_keyfile = "~/.ssh/id_rsa.pub"
 
 # DO NOT include the https:// part of URL
 vco_url = ""
+vco_api_key = ""
 vce_activation_key = ""
 vce_vm_size = "Standard_DS3_v2"
 

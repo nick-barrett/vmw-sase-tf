@@ -32,6 +32,11 @@ variable "vco_url" {
     description = "URL of the VCO to activate against - do NOT include https://"
 }
 
+variable "vco_api_key" {
+  type = string
+  description = "An API key for the VCO in use. This needs to be at the enterprise level"
+}
+
 variable "activation_code" {
     type = string
     description = "Activation code for the VCE"

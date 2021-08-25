@@ -81,6 +81,9 @@ To set up your environment, follow these steps.
 * [Azure service principal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret#creating-a-service-principal-using-the-azure-cli)
     
     *Follow through Creating a Service Principal using the Azure CLI.*
+* Python 3 and [requests](https://docs.python-requests.org/en/master/)
+
+    *This is used when polling the VCO for VCE activation state*
 
 ### Installation
 

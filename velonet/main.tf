@@ -191,3 +191,22 @@ resource "azurerm_linux_virtual_machine" "tf_vm_vce" {
     version   = "3.0.0"
   }
 }
+
+# This waits for the VCO to report that the VCE is Connected
+resource "null_resource" "wait_for_vce_activation" {
+  depends_on = [
+    azurerm_linux_virtual_machine.tf_vm_vce
+  ]
+
+  provisioner "local-exec" {
+    command = templatefile("${path.module}/scripts/vce_waiter.py", {
+      api_url        = "https://${var.vco_url}/portal/rest/edge/getEdge"
+      api_key        = var.vco_api_key
+      activation_key = var.activation_code
+    })
+    interpreter = [
+      "python",
+      "-c"
+    ]
+  }
+}
