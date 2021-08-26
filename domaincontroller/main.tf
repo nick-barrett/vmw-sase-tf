@@ -29,13 +29,13 @@ resource "azurerm_storage_container" "tf_dc_storage_container" {
   container_access_type = "private"
 }
 
-resource "azurerm_storage_blob" "tf_dc_setup_blob" {
-  name                   = "${var.name}-dc-setup.ps1"
+resource "azurerm_storage_blob" "tf_dc_setup_stage1_blob" {
+  name                   = "${var.name}-dc-setup-stage1.ps1"
   storage_account_name   = azurerm_storage_account.tf_dc_storage_account.name
   storage_container_name = azurerm_storage_container.tf_dc_storage_container.name
   type                   = "Block"
 
-  source_content = templatefile("${path.module}/scripts/dc-setup.ps1", {
+  source_content = templatefile("${path.module}/scripts/dc-setup-stage1.ps1", {
     domain_name = var.domain_name
     domain_nb_name = var.domain_nb_name
     safemode_admin_pwd = var.password
@@ -50,6 +50,7 @@ resource "azurerm_storage_blob" "tf_dc_setup_stage2_blob" {
   type                   = "Block"
 
   source_content = templatefile("${path.module}/scripts/dc-setup-stage2.ps1", {
+    ip_address = var.ip
     ous = var.domain_structure.ous
     users = var.domain_structure.users
     groups = var.domain_structure.groups
@@ -133,7 +134,7 @@ resource "azurerm_virtual_machine_extension" "tf_dc_setup_script" {
   settings           = <<SETTINGS
     {
         "fileUris": [
-          "${azurerm_storage_blob.tf_dc_setup_blob.url}",
+          "${azurerm_storage_blob.tf_dc_setup_stage1_blob.url}",
           "${azurerm_storage_blob.tf_dc_setup_stage2_blob.url}"
         ]
     }
@@ -142,7 +143,7 @@ SETTINGS
     {
       "storageAccountName": "${azurerm_storage_account.tf_dc_storage_account.name}",
       "storageAccountKey": "${azurerm_storage_account.tf_dc_storage_account.primary_access_key}",
-      "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File ${azurerm_storage_blob.tf_dc_setup_blob.name}"
+      "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File ${azurerm_storage_blob.tf_dc_setup_stage1_blob.name}"
     }
 SETTINGS
 }

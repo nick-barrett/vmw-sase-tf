@@ -1,7 +1,9 @@
 # This script is triggered via a scheduled tasks in dc-setup.ps1
-# Log to a file in C:\ because Azure VM extensions are no longer handling this script
 
-Start-Transcript -Path C:\dc-setup-stage2-log.txt -Append
+Start-Transcript -Path C:\dc-setup-stage2-log.txt
+
+# Enable debugging because winrm is tricky
+# Set-PSDebug -Trace 1
 
 # Wait for domain services to be ready
 do {
@@ -12,6 +14,25 @@ do {
 # Clean up the scheduled tasks
 schtasks /delete /f /tn CompleteADDSSetup
 schtasks /delete /f /tn Stage2Script
+
+# Create self-signed certificate
+$cert = New-SelfSignedCertificate -Subject "CN=${ip_address}" -TextExtension "2.5.29.37={text}1.3.6.1.5.5.7.3.1"
+$thumbprint = $cert.Thumbprint
+
+# Enable WinRM over TLS
+$winrmCommand = "winrm create winrm/config/Listener?Address=*+Transport=HTTPS '@{Hostname=""${ip_address}"";CertificateThumbprint=""$thumbprint""}'"
+Invoke-Expression $winrmCommand
+
+# Permit WinRM through the firewall
+$FirewallParam = @{
+    DisplayName = 'WinRM-In'
+    Direction = 'Inbound'
+    LocalPort = 5986
+    Protocol = 'TCP'
+    Action = 'Allow'
+    Program = 'System'
+}
+New-NetFirewallRule @FirewallParam
 
 %{ for ou in ous }
 New-ADOrganizationalUnit `
