@@ -24,6 +24,7 @@ ssh_keyfile = "~/.ssh/id_rsa.pub"
 # DO NOT include the https:// part of URL
 vco_url = ""
 vco_api_key = ""
+# This edge MUST have GE2 as a DHCP WAN and GE3 as a routed DHCP LAN
 vce_activation_key = ""
 vce_vm_size = "Standard_DS3_v2"
 

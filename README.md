@@ -13,15 +13,10 @@
 <!-- PROJECT LOGO -->
 <br />
 <p align="center">
-  <a href="https://github.com/nbarrettvmw/vmw-sase-tf">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
-
   <h3 align="center">VMware SASE Demo Environment Terraform Template</h3>
 
   <p align="center">
     Quickly deploy a reproducible VMware SASE demonstration environment
-    <br />
     <br />
     <a href="https://github.com/nbarrettvmw/vmw-sase-tf/issues">Report Bug</a>
     ·
@@ -72,18 +67,23 @@ To set up your environment, follow these steps.
 
 ### Prerequisites
 
-* A virtual edge configuration in a VMware SD-WAN orchestrator. The deployment will handle activation.
-* [Terraform](https://www.terraform.io/downloads.html)
-* [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli)
-* [Azure AD Tenant](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-create-new-tenant)
+* A virtual edge activation key
+    
+    *GE2 should be configured as a DHCP WAN interface. GE3 should be configured as a routed DHCP LAN interface. The domain controller and web server VMs depend upon this edge to reach the internet. Beware that these VMs' initialization will likely fail if the traffic routes through a proxy, etc.*
+* A VCO API key
+    
+    *This should be created in an enterprise-level account on the VCO. Currently, the only API used is `edge/getEdge` passing the activation key to check activation status.*
+* [Terraform](https://www.terraform.io/downloads.html) installed
+* [Azure CLI](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) installed
+* An [Azure AD Tenant](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-create-new-tenant)
     
     *This is used for Azure authentication. You can also use an existing Azure AD user with adequate permissions. This tenant must have an Azure subscription.*
-* [Azure service principal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret#creating-a-service-principal-using-the-azure-cli)
+* An [Azure Service Principal](https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/guides/service_principal_client_secret#creating-a-service-principal-using-the-azure-cli)
     
     *Follow through Creating a Service Principal using the Azure CLI.*
-* Python 3 and [requests](https://docs.python-requests.org/en/master/)
+* Python 3 and the python [requests](https://docs.python-requests.org/en/master/) library
 
-    *This is used when polling the VCO for VCE activation state*
+    *This is used to make API calls to the VCO to check activation status.*
 
 ### Installation
 
