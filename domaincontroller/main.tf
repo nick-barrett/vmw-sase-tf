@@ -89,6 +89,9 @@ resource "azurerm_network_interface" "tf_dc_nic" {
     private_ip_address_allocation = "Static"
     private_ip_address            = var.ip
   }
+
+  # Override the VNet DNS servers - this IS the DNS server
+  dns_servers = ["8.8.8.8", "8.8.4.4"]
 }
 
 resource "azurerm_network_interface_security_group_association" "tf_dc_nic_nsg_assoc" {
