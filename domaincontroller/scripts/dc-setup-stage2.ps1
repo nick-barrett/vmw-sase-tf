@@ -1,9 +1,6 @@
-# This script is triggered via a scheduled tasks in dc-setup.ps1
+# This script is triggered via a scheduled tasks or directly from dc-setup-stage1.ps1
 
 Start-Transcript -Path C:\dc-setup-stage2-log.txt
-
-# Enable debugging because winrm is tricky
-# Set-PSDebug -Trace 1
 
 # Wait for domain services to be ready
 do {
@@ -12,12 +9,27 @@ do {
 } until ($?)
 
 # Clean up the scheduled tasks
-schtasks /delete /f /tn CompleteADDSSetup
+schtasks /delete /f /tn ADDSReboot
 schtasks /delete /f /tn Stage2Script
 
-# Create self-signed certificate
-$cert = New-SelfSignedCertificate -Subject "CN=${ip_address}" -TextExtension "2.5.29.37={text}1.3.6.1.5.5.7.3.1"
+$certSubject = "CN=${ip_address}"
+$cert = $null
+
+# Check if there is already a certificate for WinRM
+$matchingCerts = get-childitem -Path "Cert:\localmachine\my" | Where-Object { $_.subject = $certSubject }
+
+if ($null -eq $matchingCerts) {
+    # Create self-signed certificate
+    $cert = New-SelfSignedCertificate -Subject $certSubject -TextExtension "2.5.29.37={text}1.3.6.1.5.5.7.3.1"
+    
+} else {
+    $cert = $matchingCerts | Select-Object -Index 0
+}
+
 $thumbprint = $cert.Thumbprint
+
+# TODO: Check if WinRM is enabled using this thumbprint already
+# will require some horrible string-parsing since winrm does not output PS objects
 
 # Enable WinRM over TLS
 $winrmCommand = "winrm create winrm/config/Listener?Address=*+Transport=HTTPS '@{Hostname=""${ip_address}"";CertificateThumbprint=""$thumbprint""}'"
@@ -33,6 +45,10 @@ $FirewallParam = @{
     Program = 'System'
 }
 New-NetFirewallRule @FirewallParam
+
+# TODO: This needs to be done in a smarter way.
+# Passing the data in as JSON and doing all of the control-flow inside powershell 
+# may be a good solution.
 
 %{ for ou in ous }
 New-ADOrganizationalUnit `
