@@ -3,12 +3,12 @@ variable "name" {
   description = "Name prefix for this instance"
 }
 
-variable "rg_name" {
+variable "resource_group_name" {
     type = string
     description = "Resource group name"
 }
 
-variable "sn_priv_id" {
+variable "subnet_id" {
   type = string
   description = "ID of the subnet for the domain controller to be placed in"
 }

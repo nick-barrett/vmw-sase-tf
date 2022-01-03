@@ -26,7 +26,7 @@ variable "location" {
   description = "Azure region for the environment i.e. northcentralus"
 }
 
-variable "network_cidr" {
+variable "address_space" {
   type = string
   description = "CIDR block for the VNet"
 }
@@ -41,14 +41,9 @@ variable "vco_api_key" {
   description = "An API key for the VCO in use. This needs to be at the enterprise level"
 }
 
-variable "vce_activation_key" {
+variable "vce_activation_code" {
   type = string
-  description = "Activation key for the VCE"
-}
-
-variable "vce_vm_size" {
-  type = string
-  description = "VM model for the VCE. Check VMware documentation."
+  description = "Activation code for the VCE"
 }
 
 variable "dc_vm_size" {

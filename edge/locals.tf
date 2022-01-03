@@ -1,19 +1,11 @@
 locals {
-  # allow for up to 8 subnets in the VNet (using 3 bits for subnet)
-  # we only use 2 but leave subnets for extending
-  cidr_split = cidrsubnets(var.cidr, 3, 3)
-
-  cidr_dmz  = element(local.cidr_split, 0)
-  cidr_priv = element(local.cidr_split, 1)
-
-  vce_ip_priv = cidrhost(local.cidr_priv, 10)
-
-  dns_server_ip = cidrhost(local.cidr_priv, 4)
-
-  vce_userdata = base64encode(templatefile("${path.module}/templates/vce_userdata.yml", {
-    activation_code = "${var.activation_code}"
-    vco_url         = "${var.vco_url}"
-  }))
+  edge_data = {for edge in var.edge_settings : edge.name => {
+    lan_ip = edge.lan_ip
+    custom_data = base64encode(templatefile("${path.module}/templates/vce_userdata.yml", {
+      activation_code = "${edge.activation_code}"
+      vco_url         = "${var.vco_url}"
+    }))
+  }}
 
   wan_nsg_rules = {
     vcmp = {

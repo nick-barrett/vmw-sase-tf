@@ -7,10 +7,10 @@ tenant_id = ""
 # env_name is a prefix used for the Azure entity names
 env_name = "vmw-sase-ncus-env"
 # Azure region to deploy into
-location = "northcentralus"
+location = "eastus"
 
 # Network to be used for the dedicated demo VNet
-network_cidr = "100.66.0.0/21"
+address_space = "100.66.0.0/21"
 
 # Username for the web server and VCE
 ssh_admin_username = ""
@@ -24,11 +24,11 @@ ssh_keyfile = "~/.ssh/id_rsa.pub"
 # DO NOT include the https:// part of URL
 vco_url = ""
 vco_api_key = ""
-# This edge MUST have GE2 as a DHCP WAN and GE3 as a routed DHCP LAN
-vce_activation_key = ""
-vce_vm_size = "Standard_DS3_v2"
+# This edge MUST have GE1 as a DHCP WAN and GE2 as a routed DHCP LAN
+vce_activation_code = ""
+vce_vm_size = "Standard_D2s_v4"
 
-dc_vm_size = "Standard_D2s_v3"
+dc_vm_size = "Standard_D2s_v4"
 # Hostname of the domain controller
 dc_name = ""
 # Domain to be used for the active directory environment

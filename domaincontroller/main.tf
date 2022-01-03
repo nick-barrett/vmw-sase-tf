@@ -1,12 +1,3 @@
-terraform {
-  required_providers {
-    azurerm = {
-      source  = "hashicorp/azurerm"
-      version = "~> 2.65"
-    }
-  }
-}
-
 resource "random_string" "stgacctname" {
   length = 13
   special = false
@@ -17,7 +8,7 @@ resource "random_string" "stgacctname" {
 
 resource "azurerm_storage_account" "tf_dc_storage_account" {
   name                     = random_string.stgacctname.result
-  resource_group_name      = var.rg_name
+  resource_group_name      = var.resource_group_name
   location                 = var.location
   account_tier             = "Standard"
   account_replication_type = "LRS"
@@ -60,7 +51,7 @@ resource "azurerm_storage_blob" "tf_dc_setup_stage2_blob" {
 resource "azurerm_network_security_group" "tf_dc_nsg" {
   name                = "${var.name}-dc-nsg"
   location            = var.location
-  resource_group_name = var.rg_name
+  resource_group_name = var.resource_group_name
 }
 
 resource "azurerm_network_security_rule" "tf_dc_nsg_rules" {
@@ -74,18 +65,18 @@ resource "azurerm_network_security_rule" "tf_dc_nsg_rules" {
   destination_port_range      = each.value.destination_port_range
   source_address_prefix       = each.value.source_address_prefix
   destination_address_prefix  = each.value.destination_address_prefix
-  resource_group_name         = var.rg_name
+  resource_group_name         = var.resource_group_name
   network_security_group_name = azurerm_network_security_group.tf_dc_nsg.name
 }
 
 resource "azurerm_network_interface" "tf_dc_nic" {
   name                = "${var.name}-nic-dc"
   location            = var.location
-  resource_group_name = var.rg_name
+  resource_group_name = var.resource_group_name
 
   ip_configuration {
     name                          = "${var.name}-nic-dc-cfg"
-    subnet_id                     = var.sn_priv_id
+    subnet_id                     = var.subnet_id
     private_ip_address_allocation = "Static"
     private_ip_address            = var.ip
   }
@@ -102,7 +93,7 @@ resource "azurerm_network_interface_security_group_association" "tf_dc_nic_nsg_a
 resource "azurerm_windows_virtual_machine" "tf_dc" {
   name                       = "${var.name}-vm-dc"
   computer_name              = var.computer_name
-  resource_group_name        = var.rg_name
+  resource_group_name        = var.resource_group_name
   location                   = var.location
   size                       = var.vm_size
   admin_username             = var.username

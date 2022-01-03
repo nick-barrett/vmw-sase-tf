@@ -3,7 +3,7 @@ variable "name" {
   description = "Name prefix for this instance"
 }
 
-variable "rg_name" {
+variable "resource_group_name" {
     type = string
     description = "Resource group name"
 }
@@ -18,7 +18,7 @@ variable "ssh_key" {
     description = "Public SSH key for the web server azuser account"
 }
 
-variable "sn_priv_id" {
+variable "subnet_id" {
   type = string
   description = "ID of the subnet for the web server to be placed in"
 }

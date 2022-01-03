@@ -10,7 +10,7 @@ terraform {
 resource "azurerm_network_security_group" "tf_websrv_nsg" {
   name                = "${var.name}-websrv-nsg"
   location            = var.location
-  resource_group_name = var.rg_name
+  resource_group_name = var.resource_group_name
 }
 
 resource "azurerm_network_security_rule" "tf_websrv_nsg_rules" {
@@ -24,18 +24,18 @@ resource "azurerm_network_security_rule" "tf_websrv_nsg_rules" {
   destination_port_range      = each.value.destination_port_range
   source_address_prefix       = each.value.source_address_prefix
   destination_address_prefix  = each.value.destination_address_prefix
-  resource_group_name         = var.rg_name
+  resource_group_name         = var.resource_group_name
   network_security_group_name = azurerm_network_security_group.tf_websrv_nsg.name
 }
 
 resource "azurerm_network_interface" "tf_websrv_nic" {
   name                = "${var.name}-nic-websrv"
   location            = var.location
-  resource_group_name = var.rg_name
+  resource_group_name = var.resource_group_name
 
   ip_configuration {
     name                          = "${var.name}-nic-websrv-cfg"
-    subnet_id                     = var.sn_priv_id
+    subnet_id                     = var.subnet_id
     private_ip_address_allocation = "Static"
     private_ip_address            = var.ip
   }
@@ -48,7 +48,7 @@ resource "azurerm_network_interface_security_group_association" "tf_websrv_nic_n
 
 resource "azurerm_linux_virtual_machine" "tf_websrv" {
   name                            = "${var.name}-vm-websrv"
-  resource_group_name             = var.rg_name
+  resource_group_name             = var.resource_group_name
   location                        = var.location
   size                            = "Standard_B1ls"
   admin_username                  = var.admin_username
