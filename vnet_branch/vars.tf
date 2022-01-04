@@ -18,6 +18,16 @@ variable "address_space" {
   description = "IP space for the vHub VNet to use (/24 or larger)"
 }
 
+variable "vm_size" {
+  type        = string
+  description = "Edge instance size"
+  default     = "Standard_D2s_v4"
+  validation {
+    condition     = contains(["Standard_D2s_v4", "Standard_D4s_v4", "Standard_D8s_v4"], var.vm_size)
+    error_message = "Invalid edge instance size provided."
+  }
+}
+
 variable "vco_url" {
   type        = string
   description = "URL of the VCO; do NOT include https://"

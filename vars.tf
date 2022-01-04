@@ -46,9 +46,20 @@ variable "vce_activation_code" {
   description = "Activation code for the VCE"
 }
 
+variable "vce_vm_size" {
+  type        = string
+  description = "Edge instance size"
+  default     = "Standard_D2s_v4"
+  validation {
+    condition     = contains(["Standard_D2s_v4", "Standard_D4s_v4", "Standard_D8s_v4"], var.vm_size)
+    error_message = "Invalid edge instance size provided."
+  }
+}
+
 variable "dc_vm_size" {
   type = string
-  description = "VM model for the domain controller"
+  default = "Standard_D2s_v4"
+  description = "Domain controller instance size"
 }
 
 variable "ssh_keyfile" {
@@ -84,6 +95,10 @@ variable "domain_name" {
 variable "domain_netbios_name" {
   type = string
   description = "Domain NetBIOS name to use when deploying the domain controller"
+  validation {
+    condition = length(var.vm_size) >= 1 && length(var.vm_size) < 16
+    error_message = "Domain NetBIOS name must be less than 16 characters"
+  }
 }
 
 variable "domain_structure" {

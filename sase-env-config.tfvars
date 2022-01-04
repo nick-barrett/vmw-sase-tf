@@ -5,7 +5,7 @@ client_secret = ""
 tenant_id = ""
 
 # env_name is a prefix used for the Azure entity names
-env_name = "vmw-sase-ncus-env"
+env_name = "vmw-sase-eus-env"
 # Azure region to deploy into
 location = "eastus"
 
@@ -15,9 +15,9 @@ address_space = "100.66.0.0/21"
 # Username for the web server and VCE
 ssh_admin_username = ""
 # Username for the domain controller administrator
-admin_username = ""
+windows_admin_username = ""
 # Password for the domain controller administrator
-admin_password = ""
+windows_admin_password = ""
 # Path to the SSH public key file for the web server and VCE
 ssh_keyfile = "~/.ssh/id_rsa.pub"
 
@@ -26,9 +26,7 @@ vco_url = ""
 vco_api_key = ""
 # This edge MUST have GE1 as a DHCP WAN and GE2 as a routed DHCP LAN
 vce_activation_code = ""
-vce_vm_size = "Standard_D2s_v4"
 
-dc_vm_size = "Standard_D2s_v4"
 # Hostname of the domain controller
 dc_name = ""
 # Domain to be used for the active directory environment
