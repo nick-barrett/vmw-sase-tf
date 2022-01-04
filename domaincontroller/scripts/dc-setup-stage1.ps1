@@ -11,6 +11,15 @@ if ($addsStatus.Installed -eq $false) {
     $needReboot = $true
 }
 
+Write-Host "Checking if NPS feature is installed..."
+$npsStatus = Get-WindowsFeature -Name NPAS
+
+if ($npsStatus.Installed -eq $false) {
+    Write-Host "NPS is not installed. Installing."
+    Install-WindowsFeature NPAS -IncludeManagementTools
+    $needReboot = $true
+}
+
 try {
     Write-Host "Checking if an AD forest exists..."
     Get-ADForest -Identity "${domain_name}" -ErrorAction Stop
@@ -51,7 +60,7 @@ if ($needReboot -eq $true) {
     # the recommended way to do this is via a scheduled task
     # This schedules a task in 1 minute to reboot the VM
     $hourMinute = [DateTime]::Now.AddMinutes(1).ToString("HH:mm")
-    schtasks /create /sc ONCE /ru system /tn "ADDSReboot" /tr "shutdown /r /f" /st $hourMinute
+    schtasks /create /sc ONCE /ru system /tn "Stage1Reboot" /tr "shutdown /r /f" /st $hourMinute
 
     Stop-Transcript
 } else {

@@ -9,7 +9,7 @@ do {
 } until ($?)
 
 # Clean up the scheduled tasks
-schtasks /delete /f /tn ADDSReboot
+schtasks /delete /f /tn Stage1Reboot
 schtasks /delete /f /tn Stage2Script
 
 $certSubject = "CN=${ip_address}"

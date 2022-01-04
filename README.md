@@ -69,7 +69,7 @@ To set up your environment, follow these steps.
 
 * A virtual edge activation key
     
-    *GE2 should be configured as a DHCP WAN interface. GE3 should be configured as a routed DHCP LAN interface. The domain controller and web server VMs depend upon this edge to reach the internet. Beware that these VMs' initialization will likely fail if the traffic routes through a proxy, etc.*
+    *GE1 should be configured as a DHCP WAN interface. GE2 should be configured as a routed DHCP LAN interface. The domain controller and web server VMs depend upon this edge to reach the internet. Beware that these VMs' initialization will likely fail if the traffic routes through a proxy, etc.*
 * A VCO API key
     
     *This should be created in an enterprise-level account on the VCO. Currently, the only API used is `edge/getEdge` passing the activation key to check activation status.*
