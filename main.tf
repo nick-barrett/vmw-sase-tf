@@ -9,7 +9,7 @@ module "sase_velonet" {
   resource_group_name = azurerm_resource_group.resource_group.name
   location            = var.location
   address_space       = var.address_space
-  vce_vm_size         = var.vce_vm_size
+  vm_size             = var.vce_vm_size
   username            = var.ssh_admin_username
   ssh_public_key      = local.ssh_key
   vco_url             = var.vco_url

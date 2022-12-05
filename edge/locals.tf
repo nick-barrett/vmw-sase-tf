@@ -1,11 +1,11 @@
 locals {
-  edge_data = {for edge in var.edge_settings : edge.name => {
+  edge_data = { for edge in var.edge_settings : edge.name => {
     lan_ip = edge.lan_ip
-    custom_data = base64encode(templatefile("${path.module}/templates/vce_userdata.yml", {
+    custom_data = base64encode(templatefile("${path.module}/templates/vce_customdata.yml", {
       activation_code = "${edge.activation_code}"
       vco_url         = "${var.vco_url}"
     }))
-  }}
+  } }
 
   wan_nsg_rules = {
     vcmp = {

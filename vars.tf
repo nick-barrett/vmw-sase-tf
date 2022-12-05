@@ -51,7 +51,7 @@ variable "vce_vm_size" {
   description = "Edge instance size"
   default     = "Standard_D2s_v4"
   validation {
-    condition     = contains(["Standard_D2s_v4", "Standard_D4s_v4", "Standard_D8s_v4"], var.vm_size)
+    condition     = contains(["Standard_D2s_v4", "Standard_D4s_v4", "Standard_D8s_v4"], var.vce_vm_size)
     error_message = "Invalid edge instance size provided."
   }
 }
@@ -96,8 +96,8 @@ variable "domain_netbios_name" {
   type = string
   description = "Domain NetBIOS name to use when deploying the domain controller"
   validation {
-    condition = length(var.vm_size) >= 1 && length(var.vm_size) < 16
-    error_message = "Domain NetBIOS name must be less than 16 characters"
+    condition = length(var.domain_netbios_name) >= 1 && length(var.domain_netbios_name) < 16
+    error_message = "Domain NetBIOS name must be less than 16 characters."
   }
 }
 
